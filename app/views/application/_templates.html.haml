@@ -1,0 +1,66 @@
+%script#tagTemplate{type: "text/html"}
+  %a.url{href: "{{ url }}", target: "_blank"}
+    .info
+      {{ name }}
+      \-
+      {{ value }}
+
+    .cf
+
+%script#userPhotoTemplate{type: "text/html"}
+  .campaigns
+    %span
+      {{#campaigns}}
+      {{name}}
+      {{/campaigns}}
+
+%script#campaignTemplate{type: "text/html"}
+  = image_tag "down-arrow.png", class: "down-arrow"
+    
+
+  %h3
+    = link_to "{{name}}", campaign_path("id").gsub("id", "{{id}}")
+  .tags
+    .time-left
+      Ends {{end_date}}.
+    {{tags_sentence}}
+
+
+  .photo-wrapper
+    .photos
+      %p
+        %i.icon-spinner.icon-spin
+        Loading...
+
+    = link_to campaign_path("id").gsub("id", "{{id}}"), class: "view-more" do
+      View more &rarr;
+
+%script#leaderboardPhotoTemplate{type: "text/html"}
+  %img.image{src: "{{image_url}}"}
+  .position {{position}}
+  .details
+    .clearfix
+    
+      .score
+        = image_tag "star-monochrome.png"
+        {{score}}
+    
+      %p.attribution
+        %img{src: "{{user.profile_picture}}", alt: "{{user.username}}'s profile picture"}
+        {{user.username}}
+    
+    %p.caption {{caption}}
+
+    .buttons
+      .btn-group
+        %a.btn.btn-small{href: "{{url}}", target: "_blank", title: "View on Instagram"}
+          %i.icon-eye-open
+        %a.like.btn.btn-small{href: "#", title: "Like/Unlike"} {{{like}}}
+        %a.comment.btn.btn-small{href: "#", title: "Comment"}
+          %i.icon-comment
+        %a.follow.btn.btn-small{href: "#"} {{{following}}}
+
+%script#photoHelpTextTemplate{type: "text/html"}
+  .photo.helptext
+    = image_tag "right-arrow.png"
+    Drag &amp; drop your photos to add them to the competition

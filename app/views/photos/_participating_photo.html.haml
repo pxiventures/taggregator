@@ -1,0 +1,9 @@
+%div.photo.pull-left
+  .position= photo.position_in(campaign)
+  = link_to photo.url do
+    = image_tag photo.thumbnail_url, data: {toggle: "tooltip", title: campaign.name}
+  .btn-group.center
+    %a.btn.btn-small.btn-info{href: twitter_intent_url("tweet", url: root_url, text: "My Instagram photo is currently #{photo.position_in(campaign).ordinalize} in today's competition on #{AppConfig.app_name}. Try and beat me!", related: "madebypxi")}
+      %i.icon-twitter
+    %a.btn.btn-small.btn-primary{href: fb_feed_post_url(photo, campaign)}
+      %i.icon-facebook

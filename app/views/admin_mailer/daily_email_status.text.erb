@@ -1,0 +1,25 @@
+Hi <%= AppConfig.app_name -%> admins!
+
+Today is <%= Date.today.strftime("%A %d %B %Y") -%>.
+
+<%- if @can_send -%>
+You'll be pleased to know that the daily email for <%= Date.today -%> can be sent and should be sent. Off you go!
+
+<%- else -%>
+There's a problem. A daily email needs to be sent but something about the 
+system means it can't be sent:
+
+  <%- if Campaign.running.count < 3 -%>
+My neural net processor detects <%= pluralize(Campaign.running.count, "campaign") -%> running but there should be 3.
+
+  <%- end -%>
+  <%- if @ended_campaigns_need_reporting.count > 0 -%>
+Please rectify the <%= pluralize(@ended_campaigns_need_reporting.count, "campaign") -%> without a winning photo.
+
+  <%- end -%>
+<%- end -%>
+<%= admin_root_url %>
+
+Yours in eternal servitude, 
+
+Taggregatorbot

@@ -1,0 +1,57 @@
+- content_for :body_class, "benefits"
+
+%h1.center
+  Turn Instagram into a game
+
+.center
+  = render partial: "application/sign-in-with-instagram"
+  
+%hr
+
+.row
+  .span4
+    .i.center
+      %i.icon-lightbulb
+
+    %h2 Get ideas for photos
+
+    %p
+      Our daily competitions will inspire you to go out and take great photos.
+  .span4
+    .i.center
+      %i.icon-thumbs-up
+    %h2 Get more engagement
+
+    %p
+      Other #{AppConfig.app_name} players will see your photos on the
+      leaderboard, and like comment and follow.
+  .span4
+    .i.center
+      %i.icon-trophy
+
+    %h2 Win and receive fame!
+
+    %p
+      If your photos is the best in the competition, everyone will hear about
+      it in the daily email and see it on the #{AppConfig.app_name} website.
+
+.row
+  .span12
+    %h3
+      Recent entries
+      %small Sign up now if you think you can do better!
+    .row
+      - @recent_activity[0..3].each do |photo|
+        .span3
+          = link_to photo.url, target: "_blank" do
+            = image_tag photo.thumbnail_url, class: "recent-image"
+            
+          %div
+            %small
+              %strong
+                = photo.user.username
+              posted a new picture to
+              %strong
+                = link_to photo.campaigns.first.name, photo.campaigns.first
+              = time_ago_in_words(photo.created_at)
+              ago

@@ -1,0 +1,28 @@
+%h1 Top Players
+%h3 Based on their total StarScore
+%hr
+
+.row
+  - [0,1,2].each do |place|
+    - if @top_10[place]
+      = render "medal", position: place+1, entry: @top_10[place]
+
+%table#leaderboard.table.table-striped
+  %thead
+    %tr
+      %th Rank
+      %th User
+      %th StarScore
+  %tbody
+    - @top_10.each_with_index do |entry, rank|
+      %tr{class: (current_user && entry == current_user ? "highlight" : "")}
+        %td= rank+1
+        %td= link_to entry.username, entry.profile_url, target: "_blank"
+        %td= entry.star_score
+    - if @users_position and @users_position > 9
+      %tr.highlight
+        %td
+          Your position:
+          = @users_position + 1
+        %td= link_to current_user.username, current_user.profile_url, target: "_blank"
+        %td= current_user.star_score

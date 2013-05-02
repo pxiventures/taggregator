@@ -1,0 +1,40 @@
+%h1.lead
+  Instagram Subscriptions
+
+%p 
+  We have 
+  #{pluralize @data.length, "subscription"}
+  with Instagram
+
+%table.table
+  %tbody
+    %tr
+      %th Aspect
+      %th Callback URL
+      %th Tag we think this is for
+      %th ID
+      %th Object ID
+      %th Object
+      %th Type
+      %th Delete
+    - @data.each do |sub|
+      %tr
+        %td= sub.aspect
+        %td= sub.callback_url
+        %td= Subscription.find_by_original_id(sub.id).tag rescue "ERROR: No idea"
+        %td= sub.id
+        %td= sub.object_id
+        %td= sub.object
+        %td= sub.type
+        %td
+          = link_to "Delete", admin_subscription_path(sub.id), confirm: 'Are you sure?', :method=>:delete, :class => "btn btn-danger"
+
+%h2
+  New Subscriptions
+
+= form_tag(admin_subscriptions_path, :method => "POST") do
+  %ol
+    %li
+      = text_field_tag :tag_name
+    %li
+      = submit_tag "Submit", class: "btn btn-primary"

@@ -1,0 +1,76 @@
+- if params[:private]
+  .alert.alert-danger
+    %p
+      Unfortunately, you cannot join #{AppConfig.app_name} if your Instagram
+      account is private, as we make your photos visible to other members of
+      #{AppConfig.app_name}.
+    %p
+      If you still want to join #{AppConfig.app_name}, make your Instagram
+      account public and try to sign in again.
+
+.row
+  .span8
+    #campaign-carousel.carousel.slide
+
+      .carousel-inner
+        - @finished_campaigns.each_with_index do |campaign, index|
+          %div{class: "item #{index == 0 ? "active" : ""}"}
+            .clearfix
+              %h3
+                = link_to campaign.name, campaign
+                %small
+                  =campaign.tags.map{|t| "##{t.name}"}.to_sentence
+            .row.clearfix
+              .pull-left.winner.span4
+                .position 1
+                = link_to campaign.winning_photo.url, target: "_blank" do
+                  = image_tag campaign.winning_photo.image_url
+                .carousel-caption
+                  %h4
+                    = campaign.winning_photo.caption
+                  Winning photo by
+                  = image_tag campaign.winning_photo.user.profile_picture, class: 'profile-picture'
+                  = campaign.winning_photo.user.username
+              .pull-left.others.span4.hidden-phone
+                - campaign.ranked_photos[1..4].each_slice(2) do |photos|
+                  .row
+                    - photos.each do |photo|
+                      .span2
+                        .position= photo.position_in(campaign)
+                        = link_to photo.url, target: "_blank" do
+                          = image_tag photo.image_url
+
+    .row
+      .span3
+        %h2 How does it work?      
+      .span5
+        %p.lead
+          Take a photo on Instagram. Tag it with the day's hashtags and race
+          to the top of the leaderboard.
+
+        .center
+          = render partial: "application/sign-in-with-instagram"
+
+  #recent-activity.span4.hidden-phone
+    %h2 Recent activity
+
+    - @recent_activity.each do |photo|
+      .row
+        = link_to photo.url, target: "_blank" do
+          = image_tag photo.thumbnail_url, class: "recent-image span1"
+        .span3
+          %strong
+            = photo.user.username
+          posted a new picture to
+          %strong
+            = link_to photo.campaigns.first.name, photo.campaigns.first
+          = time_ago_in_words(photo.created_at)
+          ago
+
+
+
+:javascript
+  $(function() {
+    $('#campaign-carousel').carousel();
+
+  });

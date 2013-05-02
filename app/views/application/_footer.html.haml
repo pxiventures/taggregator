@@ -1,0 +1,18 @@
+.container 
+  .row
+    .span3
+      %p
+        %small
+          Powered by
+          = link_to "Taggregator", "http://github.com/pxiventures/taggregator"
+          %br
+          = succeed "." do
+            Original Tagstar branding by
+            = link_to "ORE", "http://www.ore-agency.com/", target: "_blank"
+
+
+    .span6
+      &nbsp;
+    .span3
+      .pull-right.social-buttons
+        = render partial: "application/footer/social_buttons"

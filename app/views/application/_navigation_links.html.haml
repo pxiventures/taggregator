@@ -1,0 +1,12 @@
+- if current_user
+  = nav_link "Home", photos_path
+- else
+  = nav_link "Sign in/up with Instagram", "#{root_path}auth/instagram"
+= nav_link "Top Players", leaderboard_user_path
+- if current_user
+  - if can? :create, Campaign
+    = nav_link "Dashboard", admin_root_path
+
+  %li= link_to "Help", "#", id: "help"
+  = nav_link "Your Profile", profile_user_path
+  %li= link_to "Logout (#{current_user.username})", logout_path

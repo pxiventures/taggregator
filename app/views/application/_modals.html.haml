@@ -1,0 +1,107 @@
+#commentModal.modal.hide.fade
+  .modal-header
+    %button.close{:data => {dismiss: "modal"}, "aria-hidden" => true} &times;
+    %h3 Comment on a photo
+  .modal-body
+    -# Templated text goes here.
+  .modal-footer
+    %a.btn{:data => {dismiss: "modal"}, :href => "#"} Cancel
+    %a.comment.btn.btn-primary{href: "#", data: {"loading-text" => "Posting..."}} Post comment
+
+#signinModal.modal.hide.fade
+  .modal-header
+    %button.close{:data => {dismiss: "modal"}, "aria-hidden" => true} &times;
+    %h3 Sign in first
+  .modal-body
+    To do that, you need to sign in with Instagram.
+  .modal-footer
+    = link_to "Sign in/up with Instagram", "#{root_url}auth/instagram", class: "comment btn btn-success"
+
+
+#campaignAddModal.modal.hide.fade
+  .modal-header
+    %button.close{:data => {dismiss: "modal"}, "aria-hidden" => true} &times;
+    %h3 Adding photo to competition
+  .modal-body
+    -# Templated text goes here.
+  .modal-footer
+    %a.btn{:data => {dismiss: "modal"}, :href => "#"} Don't add
+    %a.add.btn.btn-primary{href: "#"} Add to competition
+
+%script#modalCommentTemplate{type: "text/html"}
+  %table
+    %tr
+      %td
+        %img{src: "{{image}}"}
+      %td
+        %p {{caption}}
+
+  %textarea#comment-text{placeholder: "Cool photo, saw it on #{AppConfig.app_name}."}
+
+%script#modalCampaignAddTemplate{type: "text/html"}
+  %p
+    Are you sure you want to add your photo captioned '{{caption}}' to
+    the competition '{{campaign}}'?
+  %p
+    Doing so will make your Instagram account comment on your photo
+    with the tags '{{tags}}'.
+
+#helpModals
+
+  .modal.hide
+    .modal-header
+      %h3 What is #{AppConfig.app_name}?
+    .modal-body
+      :markdown
+
+        #{AppConfig.app_name} is a fun way of competing against friends and
+        strangers by submitting your best Instagram photos with certain
+        hashtags.
+        
+        Every day a new set of competition hashtags are available for you to
+        race your friends to be top of the charts.
+        
+    .modal-footer
+      %a.btn.btn-primary.next{href: "#"} Next
+
+  .modal.hide
+    .modal-header
+      %h3 How does it work?
+    .modal-body
+      :markdown
+        1. We'll send you daily topics and hashtags.
+        2. Tag your Instagram snaps with the competition hashtags, or
+           drag-and-drop your photos from the #{AppConfig.app_name} web
+           interface.
+        3. Watch your best photos rise to the top of the daily leaderboard!
+        
+    .modal-footer
+      %a.btn.btn-primary.next{href: "#"} Next
+  
+  .modal.hide
+    .modal-header
+      %h3 How do I win?
+    .modal-body
+      :markdown
+        Just take an amazing picture! 
+        
+        The better the picture, the greater the chance that your followers and
+        #{AppConfig.app_name} users like, 
+        comment or follow you. The more likes and comments, the better your
+        photo will do!
+        
+    .modal-footer
+      %a.btn.btn-primary.next{href: "#"} Next
+  
+
+  .modal.hide
+    .modal-header
+      %h3 How do I get a higher score on my pictures?
+    .modal-body
+      :markdown
+        #{AppConfig.app_name} uses a special StarScore formula to give everyone
+        a fair chance.  If you have thousands of followers it doesn't mean you
+        easily beat someone with only 50 followers.
+      
+    .modal-footer
+      %a.btn.btn-success{data: {dismiss: "modal"}, href: "#"} OK, Got it!

@@ -1,0 +1,8 @@
+Dear #{@user.full_name},
+
+Someone (hopefully you) gave #{AppConfig.app_name} your email address when
+signing up.
+
+If it was you, click the link below:
+
+= verify_email_url(t: @user.verification_token, only_path: false)

@@ -1,0 +1,74 @@
+- if params[:private]
+  .alert.alert-danger
+    %p
+      Unfortunately, you cannot join #{AppConfig.app_name} if your Instagram
+      account is private, as we make your photos visible to other members of
+      #{AppConfig.app_name}.
+    %p
+      If you still want to join #{AppConfig.app_name}, make your Instagram
+      account public and try to sign in again.
+.row
+  .span4
+    %h2
+      1. Sign up
+    %ul
+      %li
+        You will receive a daily email showcasing the greatest photos from
+        our users and inviting you to take part in our exclusive photo
+        competitions.
+      %li
+        Log on to the website to view the competition leaderboards and
+        discover new Instagram users.
+  .span4
+    %h2
+      2. Take photos
+    %ul
+      %li 
+        Tag your photos with our competition hashtags.
+      %li
+        Get your photos on our competition leaderboard.
+      %li
+        Get new followers, likes and engagement from people who think
+        your photos are cool.
+  .span4
+    %h2
+      3. Enjoy the Kudos!
+    %ul
+      %li
+        The best photos win prizes!
+      %li
+        Visibility on our leaderboard and daily emails means more followers
+        on Instagram.
+      %li
+        No limit to how many times you can enter
+.row
+
+  .span6
+    %hr
+
+      .center
+        = render partial: "application/sign-in-with-instagram"
+
+
+  .span6
+    %h2.lead Recent winners
+
+    %p Think you can do better than these people? Sign up!
+    
+    %table.table
+      - Campaign.ended_with_winner.limit(3).each do |campaign|
+        %tr
+          %td
+            = link_to campaign.winning_photo.url do
+              = image_tag campaign.winning_photo.thumbnail_url, class: "thumbnail "
+          %td{style: "vertical-align: middle"}
+            %h3.lead
+              This photo won the "#{campaign.name}" competition.
+
+
+#grid
+
+:javascript
+
+  window.App = window.App || {};
+  App.InitialData = #{json_for @campaigns};

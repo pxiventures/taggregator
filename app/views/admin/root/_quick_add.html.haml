@@ -1,0 +1,7 @@
+%h1.lead
+  Quick Add Campaign
+
+= form_tag quick_add_admin_campaigns_path, method: "POST", class: "form-inline" do
+  = text_field_tag :name, nil, placeholder: "Name"
+  = text_field_tag :tag, nil, placeholder: "Tag without #", class: "input-small"
+  %button.btn{type: "submit"} Create

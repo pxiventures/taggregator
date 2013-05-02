@@ -1,0 +1,33 @@
+%h1.lead Statistics
+
+- if current_user.is_sponsor?
+  = render partial: "sponsor_statistics"
+- elsif current_user.admin?
+  = render partial: "admin_statistics"
+
+- if can? :manage, :all
+  = render partial: "quick_add"
+
+.pull-right
+  = paginate @campaigns
+%h1.lead
+  Overview of campaigns
+  = link_to "New campaign", new_admin_campaign_path, class: "btn btn-primary"
+
+
+%table#campaigns.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th Campaign Name
+      %th Status
+      %th Start at
+      %th End at
+      %th Number of photos (approved)
+      %th Photos from #{AppConfig.app_name} users (approved)
+      %th Highest rank of an approved photo from #{AppConfig.app_name} user
+      %th
+  %tbody
+    = render @campaigns
+
+.center
+  = paginate @campaigns

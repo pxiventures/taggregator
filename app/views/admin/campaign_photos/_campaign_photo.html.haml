@@ -1,0 +1,7 @@
+%div
+  - present campaign_photo.photo do |p|
+    = p.instagram_thumbnail
+
+  .btn-group
+    = link_to "Approve", admin_campaign_photo_path(@campaign, campaign_photo, {campaign_photo: {moderated: true, approved: true}}), method: :put, class: "btn btn-primary"
+    = link_to "Reject", admin_campaign_photo_path(@campaign, campaign_photo, {campaign_photo: {moderated: true, approved: false}}), method: :put, class: "btn btn-danger"

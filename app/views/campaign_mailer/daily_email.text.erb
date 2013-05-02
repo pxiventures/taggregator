@@ -1,0 +1,65 @@
+<%- if @admin_test_warning -%>
+Warning: this is a test email sent to admins only. It has not gone out to all <%= AppConfig.app_name -%> users.
+<%- end -%>
+
+Hi there!
+
+Here's your quick daily <%= AppConfig.app_name -%> update.
+
+Today's Competitions
+--------------------
+
+<%- @running_campaigns.each do |campaign| -%>
+  <%== campaign.name %>
+  Play by tagging photos <%= campaign.tags.map{|t| "##{t.name}"}.to_sentence %>
+
+<%- end %>
+
+Or visit <%= root_url -%> where you can easily add any of your existing
+Instagram photos into the competitions.
+
+<%= "=" * 40 %>
+
+Your results
+------------
+
+<%- if @users_results.empty? -%>
+  Aw, looks like you didn't enter any of the last 3 competitions.
+<%- else -%>
+  <%- @users_results.each do |photo| -%>
+  <%- present photo do |photo_presenter| -%>
+  You came
+  <%= photo_presenter.position_in_campaigns(@recent_campaigns, false) -%>
+  with
+  <%== photo_presenter.caption -%>.
+  Congratulations!
+  <%- end -%>
+  <%- end -%>
+<%- end -%>
+
+<%= "=" * 40 %>
+
+Previous winners
+----------------
+
+These were the winning photos for the day. Let them know how much they rock by
+following them or liking the photo.
+ 
+<%- @recent_campaigns.each do |campaign| -%>
+  <%== campaign.name -%> was won by <%= campaign.winning_photo.user.full_name %>
+  View the winning photo: <%= campaign.winning_photo.url %>
+<%- end %>
+ 
+<%= "=" * 40 %>
+
+Good luck, and have a good day! Check out how you are doing or how your friends
+are doing at any time by visiting <<%= root_url -%>>.
+
+<%= "=" * 40 %>
+
+You are receiving this email because you are signed up for the
+<%= AppConfig.app_name -%> daily email. 
+
+If you no longer wish to receive these updates then please log in to
+<%= AppConfig.app_name -%> and adjust your profile settings or reply to this
+email.

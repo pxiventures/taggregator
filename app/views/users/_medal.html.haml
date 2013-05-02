@@ -1,0 +1,16 @@
+.medal.span3
+  .well
+    - if position <= 3
+      = image_tag "#{position.ordinalize}.png", class: "medal-image"
+    - else
+      %h2.pull-right= position.ordinalize
+    = image_tag entry.profile_picture, class: "profile"
+    %p
+      = entry.username
+      with a StarScore of
+      = entry.star_score
+    .btn-group.center
+      %a.btn.btn-small.btn-info{href: twitter_intent_url("tweet", url: leaderboard_user_url, text: "Congratulations to @#{entry.username} who is number #{position} on the #{AppConfig.app_name} Leaderboard. #{AppConfig.app_name} superstar!", related: "madebypxi")}
+        %i.icon-twitter
+      %a.btn.btn-small.btn-primary{href: fb_feed_post_win(entry, position)}
+        %i.icon-facebook

@@ -1,0 +1,26 @@
+%table.table-striped.table-condensed.table-bordered
+  %tbody
+    %tr
+      %td Number of photos
+      %td= Photo.count
+    %tr
+      %td Number of users
+      %td= User.count
+    %tr
+      %td Users with email addresses
+      %td= User.where("email != ''").count
+    %tr
+      %td Tags we know about
+      %td= Tag.count
+    %tr
+      %td Campaigns running
+      %td= Campaign.running.count
+    %tr
+      %td Photos in running campaigns (approved)
+      %td
+        = Campaign.running.inject(0){|acc, c| acc + c.photos.count}
+        (#{Campaign.running.inject(0){|acc, c| acc + c.approved_photos.count}})
+
+    %tr
+      %td Photos in the DB tagged ##{AppConfig.default_hashtag}
+      %td= Photo.joins(:photo_tags => :tag).where("tags.name = ?", AppConfig.default_hashtag).count

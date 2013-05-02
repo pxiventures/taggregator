@@ -1,0 +1,50 @@
+%h1.title
+  = image_tag current_user.profile_picture, class: "profile-picture"
+  Your Profile
+
+.row
+  .profile-box.span2
+    .well
+      %h1
+        =@photos_submitted
+      = "photo".pluralize(@photos_submitted)
+      submitted
+
+  .profile-box.span2
+    .well
+      %h1
+        = @won
+      = "competition".pluralize(@won)
+      won
+
+  .profile-box.span2
+    .well
+      %h1
+        = current_user.star_score
+      is your StarScore
+
+.row
+  .profile-settings.span5
+    %h2 Settings
+    = form_for current_user, url: update_profile_user_path, html: {class: "form-inline"} do |f|
+      %div
+        - if current_user.can_receive_mail?
+          %p
+            You're currently receiving the daily #{AppConfig.app_name} email.
+            If you'd like to stop receiving the mail then unsubscribe by
+            changing your preference here.
+          %p 
+            Please note that if you unsubscribe you won't find out about the
+            day's topics or competitions!
+        - else
+          %p
+            You're not currently receiving the daily #{AppConfig.app_name}
+            email. Please change your preference below to start getting regular
+            announcements about the latest competitions. You can unsubscribe at
+            any time.
+  
+      = f.label :can_receive_mail, "Receive daily #{AppConfig.app_name} email?"
+      = f.check_box :can_receive_mail
+      %div
+        %button.btn{type: "submit"} Update
+    

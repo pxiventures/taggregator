@@ -1,0 +1,25 @@
+= simple_form_for [:admin, @campaign], html: {class: "form-horizontal"} do |f|
+  = f.input :name
+  = f.input :start_date
+  = f.input :end_date
+  = f.input :default_approved_state
+
+  .control-group
+    %label.control-label Tags:
+    .controls
+      %input#campaign_tags{name: "campaign[tag_tokens]", type: "text", data: {pre: @campaign.tags.map(&:attributes).to_json}}
+
+      = link_to "New tag", new_admin_tag_path
+
+  = f.button :submit
+
+%p Remember you should probably be adding ##{AppConfig.default_hashtag} as a tag too.
+
+:javascript
+  $(function() {
+    $("#campaign_tags").tokenInput(Routes.root_path() + "/admin/tags", {
+      theme: "facebook",
+      prepopulate: $("#campaign_tags").data("pre"),
+      crossDomain: false
+    });
+  });

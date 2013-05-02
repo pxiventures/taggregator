@@ -1,0 +1,156 @@
+@import "bootstrap"
+@import "bootstrap-responsive"
+@import "compass/css3"
+@import "font-awesome"
+@import url(http://fonts.googleapis.com/css?family=Varela+Round)
+
+.medal
+  position: relative
+
+  .profile
+    height: 70px
+
+  .medal-image
+    position: absolute
+    top: 0px
+    right: 0px
+
+h1, h2, h3, h4, ul.nav li
+  font-family: 'Varela Round', 'Helvetica Nueue', Helvetica, sans-serif
+  font-weight: normal
+
+.container
+  @media (max-width: 767px)
+    padding: 0px 25px
+
+.masthead-container
+  @media (max-width: 767px)
+    padding: 0
+
+.masthead
+  background-color: #2b3990
+  @include background-image(radial-gradient(bottom, ellipse cover, #00AEEF 0%, #2b3990 65%,#9F3E5B 100%))
+  +border-radius(10px 10px 0px 0px)
+  min-height: 80px
+  padding: 15px
+
+  @media (max-width: 767px) 
+    padding-top: 50px
+    +border-radius(0)
+
+  .brand
+    width: 247px
+    height: 81px
+    background-image: image-url('logo.png')
+    display: block
+
+    @media all and (-webkit-min-device-pixel-ratio: 1.5) 
+      background-image: image-url('logo@2x.png')
+      background-size: 247px 81px
+
+    &:hover
+      text-decoration: none
+
+
+
+  .nav
+    margin-bottom: 0
+
+  ul.nav
+
+    li, a, a:hover
+      background: none 
+  
+    a
+      padding-top: 0
+      padding-bottom: 0
+      line-height: 80px
+      color: white
+
+  ul.mobile-nav
+    position: absolute
+    left: 0
+    list-style-type: none
+    top: 0
+    z-index: 99
+    margin-left: 0
+    width: 100%
+    -webkit-tap-highlight-color: rgba(0,0,0,0)
+    cursor: pointer
+    display: block
+    @include background-image(linear-gradient(top, #0082b8 0%, #00699d 100%))
+    font-size: 18px
+
+    li
+      border-bottom: 1px solid #02639b
+      line-height: 40px
+      text-align: center
+      color: white
+      font-weight: bold
+
+      a
+        color: white
+
+    li:nth-child(n+2)
+      display: none
+
+    li.visible
+      display: block
+
+
+#start
+  display: block
+  width: 250px
+  height: 51px
+  background-image: image-url('sign-in-with-instagram.png')
+
+  @media all and (-webkit-min-device-pixel-ratio: 1.5) 
+    background-image: image-url('sign-in-with-instagram@2x.png')
+    background-size: 250px 51px
+
+.footer
+  background-color: #2b3990
+  //@include background-image(radial-gradient(bottom, ellipse cover, #00AEEF 0%, #2b3990 65%,#9F3E5B 100%))
+  +border-radius(10px 40px 10px 40px)
+  padding: 10px 10px
+  min-height: 50px
+  margin-top: 70px
+  border-top: 1px solid #d5d5d5
+  color: white
+
+
+
+  .span3
+    .pull-right
+      padding-right: 50px
+
+
+
+
+.center
+  margin-left: auto
+  margin-right: auto
+  text-align: center
+
+body
+  padding-top: 20px
+
+  @media (max-width: 767px)
+    padding: 0
+
+.social-buttons
+  text-align: right
+
+  .fb-like
+    width: 78px
+    top: -3px
+
+  .twitter-follow-button
+    margin-left: 5px
+
+  .plus-one
+    display: inline-block
+
+// Little conflict between Bootstrap and Messenger?
+.messenger button.close
+  right: 0px

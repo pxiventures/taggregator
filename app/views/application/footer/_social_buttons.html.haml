@@ -1,0 +1,12 @@
+/ Place this tag where you want the +1 button to render.
+.plus-one
+  .g-plusone{data: {size: "medium", annotation: "none"}}
+/ Place this tag after the last +1 button tag.
+:javascript
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+%a.twitter-share-button{"data-text" => "#{AppConfig.app_name} is a fun Instagram game. Try and beat my pics in todays challenge", "data-url" => root_url, "data-count" => "none", :href => "https://twitter.com/share"}>< Tweet
+<a href="https://twitter.com/madebypxi" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false">Follow @madebypxi</a>

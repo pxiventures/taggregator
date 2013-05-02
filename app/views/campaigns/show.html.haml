@@ -1,0 +1,38 @@
+- present @campaign do |campaign_presenter|
+  #single-campaign.row
+
+    .span4
+      %h1= campaign_presenter.name
+
+      - if current_user
+        - unless @campaign.ended?
+          %h4
+            Tag your Instagram photos with 
+            = campaign_presenter.tags
+            to add them to this competition.
+        - if @users_photos.empty?
+          %p
+            You #{@campaign.ended? ? "didn't participate" : "aren't participating"}
+            in this competition.
+        - else
+          .clearfix
+            %h2 Your photos
+            - @users_photos.each do |photo|
+              = render "photos/participating_photo", photo: photo, campaign: @campaign
+
+    .span8
+      %h2 Leaderboard
+
+      #leaderboard
+
+:javascript
+  $(function() {
+    App.Campaign = new App.Models.Campaign(#{json_for @campaign});
+
+    var view = new App.Views.Campaign({model: App.Campaign});
+    $("#leaderboard").after(view.render().el);
+    $("#leaderboard").remove();
+    view.$el.removeClass("span4");
+    
+
+  });

@@ -1,0 +1,20 @@
+!!!
+%html{lang: "en"}
+  %head
+    %title
+      = AppConfig.app_name
+      = content_for?(:title) ? " | #{yield(:title)}" : ""
+    %meta{charset: "utf-8"}
+
+    = render partial: "application/ga"
+    = include_gon
+    = csrf_meta_tags
+
+    :javascript
+      window.App = window.App || {};
+
+    = stylesheet_link_tag    "embed", :media => "all"
+    = javascript_include_tag "embed"
+
+  %body
+    =yield

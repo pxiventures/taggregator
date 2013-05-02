@@ -1,0 +1,5 @@
+<%- if @photos.count > 0 -%>
+  $("#photos").append("<%= escape_javascript(render("photos/grid", photos: @photos)) %>");
+<%- else -%>
+  window.atBottom = true;
+<%- end -%>

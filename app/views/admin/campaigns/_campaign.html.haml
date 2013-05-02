@@ -1,0 +1,29 @@
+%tr
+  %td= campaign.name
+  %td
+    - if Campaign.running.exists?(campaign)
+      Running
+    - elsif campaign.start_date > Time.now
+      Queued (starting in #{time_ago_in_words(campaign.start_date)})
+    - else
+      Ended (#{time_ago_in_words(campaign.end_date)} ago)
+      - if !campaign.winning_photo.nil?
+        and winning photo recorded.
+      - else
+        but winning photo not recorded.
+        = link_to "Record winning photo #{AppConfig.deliver_campaign_emails ? "and email winner" : ""} now", set_winning_photo_admin_campaign_path(campaign), method: :post, confirm: "Are you sure?"
+  %td= campaign.start_date.strftime("%Y/%m/%d at %I:%M%p")
+  %td= campaign.end_date.strftime("%Y/%m/%d at %I:%M%p")
+  %td
+    = campaign.photos.count
+    (#{campaign.approved_photos.count})
+  %td= campaign.participating_users(true, false).length
+  %td
+    - if campaign.end_date > Time.now
+      - r = campaign.ranked_photos.index{|p| p.user.email.present?}
+      = r ? r + 1 : "-"
+    - else
+      Campaign not running
+  %td
+    = render "admin/campaigns/actions", campaign: campaign
+

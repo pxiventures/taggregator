@@ -1,0 +1,111 @@
+defaults: &defaults
+  
+  # Name of your app e.g. Taggregator
+  app_name: <%= ENV["APP_NAME"] %>
+
+  # Default hashtag to add to competitions e.g. 'taggregator'. This is also
+  # what you should add a realtime subscription for on Instagram. Don't include
+  # the hash character.
+  default_hashtag: <%= ENV["DEFAULT_HASHTAG"] %>
+
+  # Hostname where the app is hosted; for email URLs e.g. www.tagstar.co
+  # This environment variable must be set; it is used directly in
+  # `config/environments/production.rb` where AppConfig is unavailable.
+  app_host: <%= ENV["APP_HOST"] %>
+
+  # Asset host, probably the same as your app hostname but with http:// e.g.
+  # http://www.tagstar.co
+  # This environment variable must be set; it is used directly in
+  # `config/environments/production.rb` where AppConfig is unavailable.
+  app_asset_host: <%= ENV["APP_ASSET_HOST"] %>
+
+  # Your Google Analytics property ID in the format UA-xxxxxxxx-x
+  analytics_tracking_code: <%= ENV["GA_TAG"] %>
+
+  # Set to true to enable emails sent when a campaign closes.
+  # Hasn't been tested for a while, as we don't use them.
+  deliver_campaign_emails: false
+
+  # Only public Instagram accounts
+  only_public_users: true
+
+  # Default campaign length when quick-adding
+  default_campaign_length: <%= 3.days %>
+
+  # How long before user metrics (followers etc.) should be refreshed.
+  user_metrics_ttl: <%= 6.hours %>
+  # How long before photo metrics (likes etc.) should be refreshed.
+  photo_metrics_ttl: <%= 30.minutes %>
+
+  # This is the decay constant the scoring uses to determine how quickly to
+  # decay a photo's score when the photo is older than the start of the 
+  # campaign it is in.
+  photo_date_decay_constant: 0.3
+  # Decay constant the scoring uses to determine how quickly to decay a photo's
+  # score based on the number of tags it has.
+  photo_tags_decay_constant: 0.3
+  # How many tags are allowed before you start to punish the photo at all.
+  photo_tags_maximum: 5
+  # Maximum number of extra tags to punish for. Beyond this amount, the score 
+  # doesn't decrease further.
+  photo_tags_maximum_punish: 6
+
+  email:
+    from: <%= ENV["EMAIL_FROM_ADDRESS"] %>
+    # Admin email address
+    to: <%= ENV["EMAIL_TO_ADDRESS"] %>
+
+  instagram:
+    # You will need to obtain commenting permission from Instagram.
+    # You may want separate development permissions so callbacks work.
+    client_id: <%= ENV["INSTAGRAM_CLIENT_ID"] %>
+    client_secret: <%= ENV["INSTAGRAM_CLIENT_SECRET"] %>
+    rate_limit_warning_threshold: 1000
+    verify_token: <%= ENV["INSTAGRAM_VERIFY_TOKEN"] %>
+    # Instagram account for your app. This is used when auto-commenting on the
+    # user's photo when they add it to a competition in the format:
+    # 'I added this photo to a comptition on @yourappaccount'.
+    #
+    # See `app/models/photo.rb`. Don't include the @ sign.
+    account: <%= ENV["INSTAGRAM_ACCOUNT"] %>
+  
+  # Used for Facebook sharing. You may want a different one for production.
+  facebook:
+    app_id: <%= ENV["FACEBOOK_APP_ID"] %>
+  
+  # How many new photos Instagram tells us about before we fetch recent media
+  # for the subscribed tag.
+  #
+  # TODO: Add additional time-based expiry on fetching new photos.
+  subscription_queue_limit: 5
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+  app_name: "Taggregator"
+  default_hashtag: "taggregator"
+  app_host: "taggregator.com"
+  app_asset_host: "http://taggregator.com"
+  analytics_tracking_code: "UA-1234567-12"
+  deliver_campaign_emails: true
+  email:
+    from: "test@taggregator.com"
+    to: "test@taggregator.com"
+  instagram:
+    client_id: "instagram-client-id"
+    client_secret: "instagram-client-secret"
+    rate_limit_warning_threshold: 1000
+    verify_token: "instagram-verify-token"
+    account: "taggregatorapp"
+  facebook:
+    app_id: "1234567"
+
+production:
+  <<: *defaults
+
+  # Be far more aggressive about fetching new metrics in production.
+  user_metrics_ttl: <%= 1.hour %>
+  photo_metrics_ttl: <%= 3.minutes %>

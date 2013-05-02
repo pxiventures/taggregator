@@ -1,0 +1,64 @@
+- title "Editing #{@campaign.name}"
+
+%h2
+  = @campaign.name
+
+  .btn-group
+    = link_to "Edit", edit_admin_campaign_path(@campaign), :class => "btn btn-primary"
+    = link_to "Destroy", [:admin, @campaign], :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-danger"
+    = link_to "View All", admin_campaigns_path, :class => "btn btn-info"
+
+%table#campaign-info.table-bordered.table-striped.table
+  %tr
+    %td
+      Start Date
+    %td
+      = @campaign.start_date
+  %tr
+    %td
+      End Date
+    %td
+      = @campaign.end_date
+  %tr
+    %td
+      Number of photos (approved)
+    %td
+      #{@campaign.photos.count} (#{@campaign.approved_photos.count})
+  %tr
+    %td
+      Tags
+    %td
+      = @campaign.tags.map(&:name).to_sentence
+
+%p
+  - if @campaign.winning_photo
+    %strong Photo that won:
+    %br
+    = link_to @campaign.winning_photo.url do 
+      = image_tag @campaign.winning_photo.thumbnail_url
+  - else
+    - if @campaign.approved_photos.count > 0 
+      - leading_photo = @campaign.ranked_approved_photos.first
+      %strong Current leading photo:
+      %br
+      = link_to leading_photo.url do
+        = image_tag leading_photo.thumbnail_url
+
+    %p
+      = link_to "Mark as 'won'",
+        set_winning_photo_admin_campaign_path(@campaign),
+        method: :post,
+        class: "btn btn-danger #{@campaign.winning_photo.present? ? "disabled" : ""}",
+        confirm: "Are you sure?"
+
+    %p
+      You must mark a campaign as 'won' to 'lock in' the winning photo and have it
+      mentioned on the daily email and website UI.
+
+%div
+  %strong Other photos:
+  %br
+  - @campaign.ranked_photos.offset(1).each do |photo|
+    - present photo do |photo_presenter|
+      = photo_presenter.instagram_thumbnail
+

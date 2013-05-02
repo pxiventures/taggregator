@@ -1,0 +1,63 @@
+@import "compass/css3"
+  
+#campaign-carousel
+
+  .item
+    .winner img
+
+  .winner, .others .row .span2
+    position: relative
+
+  .others .position
+    width: 32px
+    height: 30px
+    background-size: 100%
+    line-height: 31px
+    font-size: 14px
+
+  .others .row
+    margin-bottom: 30px
+
+  .carousel-caption
+    color: white
+    
+    .profile-picture
+      width: 16px
+      height: 16px
+
+#recent-activity
+
+  .row
+    margin-bottom: 20px
+
+
+
+// Benefits version
+
+body.benefits
+  padding-top: 140px
+
+  .masthead
+    position: absolute
+    left: 0
+    width: 100%
+    +box-sizing(border-box)
+    height: 120px
+    top: 0
+    +border-radius(0px 0px 0px 0px)
+
+    .nav
+      @media (max-width: 768px)
+        display: none
+
+  footer
+    background-color: #ccc
+    color: #333
+    +border-radius(0)
+
+  h1.center
+    margin-bottom: 20px
+
+  .i
+    font-size: 56px
+    color: #2b3990

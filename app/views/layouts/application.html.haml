@@ -1,0 +1,73 @@
+!!!
+%html{lang: "en"}
+  %head
+    %title
+      = AppConfig.app_name
+      = content_for?(:title) ? " | #{yield(:title)}" : ""
+    %meta{charset: "utf-8"}
+    %meta{name: "description", content: "#{AppConfig.app_name} is a fun Instagram game. Race your friends to be top of the charts and grab more Instagram followers. Win prizes and fame by taking the best photo of the day."}
+    %meta{name: "keywords", content: "#{AppConfig.app_name}, instagram, game, iphone, android, competition, photos, leaderboard, prizes, instafame, instagood, instacool"}
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
+    %link{rel: "shortcut icon", href: asset_path("favicon.png") }
+
+    %meta{"http-equiv" => "X-UA-Compatible", "content" => "chrome=IE8"}
+
+    = render partial: "application/ga"
+
+    = include_gon
+
+    :javascript
+      window.App = window.App || {};
+      window.App.Root = "#{root_url}";
+      App.InstagramClientId = "#{AppConfig.instagram.client_id}";
+
+
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = yield :head
+    = csrf_meta_tags
+  %body{class: yield(:body_class)}
+    = render partial: "application/facebook-js-sdk"
+    = javascript_include_tag "http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"
+    :javascript
+      CFInstall.check({
+        mode: "overlay",
+        destination: "#{root_url(only_path: false)}"
+      });
+
+    .container.masthead-container
+      .masthead
+        %ul.mobile-nav.visible-phone
+          %li#toggle-mobile-nav Menu &#9660;
+          = render partial: "application/navigation_links"
+        %ul.nav.nav-pills.pull-right.hidden-phone
+          = render partial: "application/navigation_links"
+
+        = link_to "", root_url, class: "brand"
+
+      = yield :masthead_container_content
+    .container
+
+      #content
+
+        -if notice
+          :javascript
+            Messenger().post({
+              message: "#{j notice}"
+            });
+        -if alert
+          :javascript
+            Messenger().post({
+              message: "#{j alert}",
+              type: 'error'
+            });
+
+        = content_for(:sub_nav)
+
+        = yield
+
+      %footer.footer
+        = render partial: "application/footer"
+
+    = render partial: "application/templates"
+    = render partial: "application/modals"

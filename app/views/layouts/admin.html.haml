@@ -1,0 +1,20 @@
+- content_for :sub_nav do
+  .navbar
+    .navbar-inner
+      =link_to "Admin", admin_root_path, class: "brand"
+      - if can? :manage, :all
+        = render partial: "admin/right_buttons"
+
+      %ul.nav
+        = nav_link "Campaigns", admin_root_path
+        - if can? :manage, :all
+          = nav_link "Rails Admin", rails_admin.dashboard_path
+          = nav_link "Realtime Subs", admin_subscriptions_path
+          = nav_link "Sidekiq", "#{root_path}sidekiq"
+      
+  - if @last_daily_email and can? :manage, :all
+    = render "admin/daily_email_notice", last_daily_email: @last_daily_email
+
+
+
+= render template: "layouts/application"

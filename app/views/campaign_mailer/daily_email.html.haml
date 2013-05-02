@@ -1,0 +1,182 @@
+!!! Strict
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+    %title [#{AppConfig.app_name}] Daily Update
+    :css
+      .ExternalClass {width:100%;} 
+      .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+          line-height: 100%;} 
+       
+      body {-webkit-text-size-adjust:none; -ms-text-size-adjust:none;} 
+      body {padding:0;} 
+      table td {border-collapse:collapse;}
+                 
+      p {margin:0; padding:0; margin-bottom:15px;}
+       
+      h1, h2, h3, h4, h5, h6 {
+         color: black; 
+         line-height: 100%; 
+         }  
+                
+      a, a:link {
+         color:#2A5DB0;
+         text-decoration: underline;
+         }       
+ 
+      body, #body_style {
+         background:#fff;
+         min-height:1000px;
+         color:#333;
+         font-family:Arial, Helvetica, sans-serif;
+         font-size:12px;
+         }
+          
+
+      span.yshortcuts { color:#000; background-color:none; border:none;}
+      span.yshortcuts:hover,
+      span.yshortcuts:active,
+      span.yshortcuts:focus {color:#000; background-color:none; border:none;}
+                     
+      a:visited { color: #3c96e2; text-decoration: none} 
+      a:focus   { color: #3c96e2; text-decoration: underline}  
+      a:hover   { color: #3c96e2; text-decoration: underline}  
+ 
+      @media only screen and (max-device-width: 480px) {
+ 
+      }       
+       
+      @media only screen and (min-device-width: 768px) and (max-device-width: 1024px)  {          
+ 
+      }              
+ 
+  %body{:alink => "#FF0000", :bgcolor => "#2b3990", :link => "#FF0000", :style => "background:#fff; min-height:1000px; color:#333;font-family:Arial, Helvetica, sans-serif; font-size:12px", :text => "#333", :yahoo => "fix"}
+    #body_style{:style => "padding:15px"}
+    
+      
+      - if @admin_test_warning
+        %p{:bgcolor => "#ff0000", :style=> "background-color: #ff0000; padding: 20px; color: white; font-size: 20px"}
+          Warning: this is a test email sent to admins only. It has not gone out to all users.
+    
+      %table{:align => "center", :bgcolor => "#fff", :border => "0", :cellpadding => "5", :cellspacing => "0", :width => "600", :style => "border-collapse: separate; border-spacing: 0; background-color: #fff"}
+        %tr
+          %td{height: "146", width: "600", colspan: "3", style: "background-color: #fff; padding:0"}
+            %h1{height: "130", style:"display:block; height:130px"}
+              = link_to root_url(@default_mail_params), target: "_blank" do
+                = image_tag "logo-email.png", style: "padding:0"
+        
+        -# Intro
+        %tr
+          %td{:width => "600", colspan: "3", style:"font-size: 16px; font-style: bold; padding: 20px 10px"}
+            %p
+              Hi
+              = succeed "," do
+                = @user.username
+            %p
+              Here's your 
+              = Date.today.strftime("%A")
+              update from
+              = succeed "." do
+                = link_to AppConfig.app_name, root_url(@default_mail_params), target: "_blank"
+
+        -# Current competitions.
+        %tr
+          %td{width: "600", colspan: "3", style: "padding: 10px; background-color: #fff; background-color: #ddeefd"}
+            %h2{style:"color:#2b3990"} Get involved in today's competitions
+
+        %tr
+          - @running_campaigns.each do |campaign|
+            %td{width: "200", style: "text-align: center"}
+              %h3{style: "color: #B63C3C"}
+                =link_to campaign.name, campaign_path(campaign, @default_mail_params), style: "color: #B63C3C"
+              %p
+                Play by tagging photos
+                %br 
+                %strong
+                  = campaign.tags.map{|t| "##{t.name}"}.to_sentence
+
+        %tr
+          %td{width: "600", colspan: "3", style: "padding: 20px"}
+            %p
+              &hellip; or visit 
+              = link_to AppConfig.app_name, root_path(@default_mail_params), target: "_blank"
+              where you can easily add any of your existing Instagram photos into the competitions.
+
+        -# Your results
+        - unless @users_results.empty?
+          %tr
+            %td{width: "600", colspan: "3", style: "padding: 10px; background-color: #ddeefd"}
+              %h2{style:"color: #2b3990"} How your pics did
+          
+          - @users_results.each_slice(3) do |photos|
+            %tr
+              - photos.each do |photo|
+                - present photo do |photo_presenter|
+                  %td{width: "200", style: "text-align: center; padding: 20px 0"}
+                    You came
+                    = photo_presenter.position_in_campaigns(@recent_campaigns)
+                    with your photo titled
+                    %span{style:"font-style:italic"}
+                      = photo_presenter.caption
+                    
+                    %div{style:"padding:10px 0"}= photo_presenter.instagram_thumbnail(style: "display: block; margin: 0 auto", border: 0)
+                    
+                    %p
+                      Go ahead! Brag on 
+                      %br
+                      = photo_presenter.tweet(@recent_campaigns)
+                      \|
+                      = photo_presenter.facebook(@recent_campaigns)
+
+        -# Campaigns others won 
+        %tr
+          %td{width: "600", colspan: "3", style: "padding: 10px; background-color: #ddeefd"}
+            %h2{style:"color: #2b3990"} Today's winners
+        
+        %tr
+          %td{width: "600", colspan: "3", style: "padding: 20px 10px 0 10px"}
+            These are the winners of recent competitions - let them know how much they rock by following them and liking the photo. After all, they'd do the same for you ;)
+        
+        %tr
+          - @recent_campaigns.each do |campaign|
+            %td{width: "200", style: "text-align: center; padding: 20px 0"}
+              %h3{style: "color: #B63C3C"}
+                =link_to campaign.name, campaign_path(campaign, @default_mail_params), style: "color: #B63C3C"
+              
+              = link_to campaign.winning_photo.url, target: "_blank" do
+                = image_tag campaign.winning_photo.thumbnail_url
+              %p{style:"padding-top:5px"}
+                Won by
+                = link_to campaign.winning_photo.user.username, "http://instagram.com/#{campaign.winning_photo.user.username}", target: "_blank"
+                - unless campaign.winning_photo.caption.blank?
+                  with caption
+                  %span{style:"font-style:italic"}
+                    #{campaign.winning_photo.caption}
+
+        -# Keep tagging
+        %tr
+          %td{width: "600", colspan: "3", style: "padding: 10px; background-color: #ddeefd"}
+            %h2{style:"color:#2b3990"} Keep tagging!
+        
+        %tr
+          %td{width: "600", colspan: "3", style: "padding: 20px 10px"}
+            %p
+              Good luck out there! And don't forget that you can visit
+              = link_to "the #{AppConfig.app_name} website", root_url(@default_mail_params), target: "_blank"
+              at any point to see how you're doing or keep tabs on your friends.
+              
+            %p
+              Happy tagging,
+            %p
+              The #{AppConfig.app_name} team.
+        
+        %tr
+          %td{width: "600", colspan: "3"}
+            %br
+            %small{style: "color: grey"}
+              You are receiving this email because you are signed up for the
+              #{AppConfig.app_name} daily email.  If you no longer wish to
+              receive these updates then please 
+              = link_to "log into #{AppConfig.app_name}", root_path(@default_mail_params.merge({utm_term:"unsubscribe"}))
+              and adjust your profile settings, or just reply to this email
+              saying you want to unsubscribe.

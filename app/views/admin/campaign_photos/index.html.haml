@@ -1,0 +1,6 @@
+= paginate @campaign_photos
+
+- if @campaign_photos.blank?
+  %p No photos to moderate yet.
+
+= render @campaign_photos

@@ -1,0 +1,11 @@
+data:
+  username: snoopdogg
+  bio: ''
+  website: http://snoopdogg.com
+  profile_picture: http://images.instagram.com/profiles/profile_1574083_75sq_1342815373.jpg
+  full_name: ''
+  counts:
+    media: 1867
+    followed_by: 1529178
+    follows: 313
+  id: '1574083'

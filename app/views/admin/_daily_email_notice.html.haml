@@ -1,0 +1,5 @@
+.pull-right
+  %p
+    Daily email was last sent #{time_ago_in_words(last_daily_email.sent_at)} ago.
+    = pluralize(last_daily_email.emails_sent, "email")
+    were sent.

@@ -1,0 +1,4 @@
+.btn-group.pull-right
+  = link_to "Send test email to admins", admin_daily_email_test_path, method: "post", confirm: "Are you sure?!", class: "btn btn-danger btn-small"
+  = link_to "Send daily email", admin_daily_email_path, method: "post", confirm: "Are you sure?!", class: "btn btn-danger btn-small"
+  = link_to "Update metrics for active photos".html_safe, admin_force_update_path, method: "post", confirm: "Are you sure?!", class: "btn btn-info btn-small"

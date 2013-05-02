@@ -1,0 +1,57 @@
+- content_for :head do
+  = javascript_include_tag "user_home"
+
+- content_for :masthead_container_content do
+  .row
+    #campaigns-top.span12
+      .inner
+        %h2
+          Current competitions
+          %small.hidden-phone Tag your photos to automatically enter them in the competition.
+      
+      #campaigns.row
+
+.row
+  .span12
+    .row
+      .span2
+        %h2 Your photos
+      #yourphotos-container.span10
+        #yourphotos
+          %p
+            %i.icon-spinner.icon-spin
+            Loading...
+
+  .span12
+    %hr
+    .row
+      .span2
+        %h2 How your photos are doing
+      .span10
+        .participating-photos.clearfix
+          %p
+            %i.icon-spinner.icon-spin
+            Loading...
+
+    %hr
+    .row
+      .span2
+        %h2 Previous winners
+      .span10
+        - if @ended_campaigns.count == 0
+          %p No one has won a competition yet! :(
+        - else
+          .row
+            - @ended_campaigns.each do |campaign|
+              .span2
+                = render "application/winner", campaign: campaign
+  
+
+:javascript
+  window.App.InitialData = #{json_for @campaigns};
+
+- if @first_sign_in || params[:first_sign_in]
+  :javascript
+    $(function() {
+      window.showHelp();
+    });

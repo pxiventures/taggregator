@@ -1,0 +1,22 @@
+- if current_user.email 
+  %h2.lead
+    You have already supplied us with an email address
+    (#{current_user.email}),
+    - unless current_user.verified
+      but you haven't verified it yet. Check your inbox
+      or supply a different email address below.
+    - else
+      if you'd like to change your email address, fill in the form below.
+
+
+%p Enter your email address:
+
+= form_tag email_path, class: "form form-horizontal", id: "email-form" do
+  .control-group
+    %label.control-label{for: "email"} Email
+    .controls
+      = text_field_tag :email, "", placeholder: "Email"
+
+  = submit_tag "Submit"
+
+

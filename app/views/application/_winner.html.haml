@@ -1,0 +1,9 @@
+.winner
+  %h4
+    = campaign.name
+    %br
+    %small
+      = time_ago_in_words(campaign.end_date)
+      ago
+  = link_to campaign, target: "_blank" do
+    = image_tag campaign.winning_photo.thumbnail_url

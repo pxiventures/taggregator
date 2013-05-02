@@ -1,0 +1,11 @@
+Hi <%= AppConfig.app_name -%> admins!
+
+There's a bit of a problem: I just requested URL <%= @url %>, and the rate limit remaining was <%= @rate_limit_remaining %>.
+
+This might be our global rate limit or a user's. You should be able to tell based on the URL: if it just has a client_id it is our rate limit.
+
+Good luck!
+
+Yours in eternal servitude, 
+
+Taggregatorbot
