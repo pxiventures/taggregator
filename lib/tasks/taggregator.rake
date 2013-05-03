@@ -10,7 +10,7 @@ namespace :taggregator do
     Star::PhotoUpdater::Enqueuer.perform_async
   end
 
-  desc "Clean up photos and users that are not relevant to campaigns" do
+  desc "Clean up photos and users that are not relevant to campaigns"
   task :cleanup => :environment do
     # Remove any photos that aren't in campaigns
     Photo.includes(:campaign_photos).all.select{|p| p.campaign_photos.empty?}.each(&:destroy)
