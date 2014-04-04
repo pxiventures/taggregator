@@ -24,7 +24,6 @@ class Admin::SubscriptionsController < AdminController
 
     Thread.new do |t|
 
-      base_url = AppConfig.external_url
       callback_url = instagram_callback_url
 
       request_params = {
@@ -37,7 +36,7 @@ class Admin::SubscriptionsController < AdminController
         client_secret: AppConfig.instagram.client_secret
       }
 
-      response = Star::Requester.post "subscriptions", request_params.to_param
+      Star::Requester.post "subscriptions", request_params.to_param
     end
 
     sleep 1
